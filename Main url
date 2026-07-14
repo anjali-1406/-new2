@@ -1,0 +1,4 @@
+path(
+    "notifications/",
+    include("apps.notifications.urls")
+),
