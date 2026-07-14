@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet"
+      href="{% static 'css/notification.css' %}">
+
+<div class="notification-container">
+
+    <div class="notification-header">
+
+        <h2>Notifications</h2>
+
+    </div>
+
+    {% if notifications %}
+
+        {% for notification in notifications %}
+
+        <div class="notification-card {% if not notification.is_read %}unread{% endif %}">
+
+            <div class="notification-avatar">
+
+                👤
+
+            </div>
+
+            <div class="notification-content">
+
+                {% if notification.notification_type == "LIKE" %}
+
+                    <strong>{{ notification.sender.username }}</strong>
+
+                    liked your post.
+
+                {% elif notification.notification_type == "COMMENT" %}
+
+                    <strong>{{ notification.sender.username }}</strong>
+
+                    commented on your post.
+
+                {% elif notification.notification_type == "REPLY" %}
+
+                    <strong>{{ notification.sender.username }}</strong>
+
+                    replied to your comment.
+
+                {% elif notification.notification_type == "FOLLOW" %}
+
+                    <strong>{{ notification.sender.username }}</strong>
+
+                    started following you.
+
+                {% endif %}
+
+                <div class="notification-time">
+
+                    {{ notification.created_at|timesince }} ago
+
+                </div>
+
+            </div>
+
+            {% if not notification.is_read %}
+
+            <div class="unread-dot"></div>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-notification">
+
+            No notifications yet.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
