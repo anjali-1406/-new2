@@ -1,0 +1,11 @@
+<a href="{% url 'notifications:notification_list' %}" class="notification-link">
+
+    🔔
+
+    {% if request.user.is_authenticated %}
+        <span class="notification-count">
+            {{ request.user.received_notifications.filter(is_read=False).count }}
+        </span>
+    {% endif %}
+
+</a>
