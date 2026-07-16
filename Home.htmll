@@ -1,0 +1,53 @@
+<div class="stories-container">
+
+    <!-- Add Story -->
+
+    <a href="{% url 'stories:story_create' %}"
+
+       class="story-card add-story">
+
+        <div class="story-image-box">
+
+            <span class="plus-icon">+</span>
+
+        </div>
+
+        <span class="story-name">
+
+            Create Story
+
+        </span>
+
+    </a>
+
+    <!-- Stories -->
+
+    {% for story in stories %}
+
+    <a href="{% url 'stories:story_detail' story.id %}"
+
+       class="story-card">
+
+        <div class="story-image-box">
+
+            <img
+
+                src="{{ story.image.url }}"
+
+                class="story-image"
+
+                alt="{{ story.author.username }}">
+
+        </div>
+
+        <span class="story-name">
+
+            {{ story.author.username }}
+
+        </span>
+
+    </a>
+
+    {% endfor %}
+
+</div>
