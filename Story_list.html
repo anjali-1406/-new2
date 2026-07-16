@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/story.css' %}">
+
+<div class="story-page">
+
+    <div class="story-header">
+
+        <h2>Stories</h2>
+
+        <a href="{% url 'stories:story_create' %}"
+           class="btn-primary">
+
+            + Add Story
+
+        </a>
+
+    </div>
+
+    <div class="story-grid">
+
+        {% for story in stories %}
+
+        <a href="{% url 'stories:story_detail' story.id %}"
+           class="story-card">
+
+            <img
+                src="{{ story.image.url }}"
+                alt="Story">
+
+            <span>
+
+                {{ story.author.username }}
+
+            </span>
+
+        </a>
+
+        {% empty %}
+
+        <p>
+
+            No stories available.
+
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
