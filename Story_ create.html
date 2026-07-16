@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/story.css' %}">
+
+<div class="story-upload-container">
+
+    <h2>Create Story</h2>
+
+    <form method="POST"
+          enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button
+            class="btn-primary"
+            type="submit">
+
+            Upload Story
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
