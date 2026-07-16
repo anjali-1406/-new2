@@ -1,0 +1,39 @@
+<div class="stories-wrapper">
+
+    <a href="{% url 'stories:story_create' %}"
+       class="story-item create-story">
+
+        <div class="story-circle">
+
+            +
+
+        </div>
+
+        <span>Add Story</span>
+
+    </a>
+
+    {% for story in stories %}
+
+    <a href="{% url 'stories:story_detail' story.id %}"
+       class="story-item">
+
+        <div class="story-circle">
+
+            <img
+                src="{{ story.image.url }}"
+                alt="{{ story.author.username }}">
+
+        </div>
+
+        <span>
+
+            {{ story.author.username }}
+
+        </span>
+
+    </a>
+
+    {% endfor %}
+
+</div>
