@@ -1,63 +1,147 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/story.css' %}">
+{% endblock %}
+
+{% block content %}
 
 <div class="story-viewer">
 
-    <div class="story-box">
+    <div class="story-view-card">
 
-        <img
-            src="{{ story.image.url }}"
-            class="story-image">
+        <!-- Progress Bar -->
 
-        {% if story.caption %}
+        <div class="story-progress">
 
-        <p class="story-caption">
-
-            {{ story.caption }}
-
-        </p>
-
-        {% endif %}
-
-        <div class="story-footer">
-
-            <strong>
-
-                {{ story.author.username }}
-
-            </strong>
-
-            <br>
-
-            {{ story.created_at|timesince }} ago
+            <div
+                class="story-progress-fill"
+                id="story-progress-fill">
+            </div>
 
         </div>
 
-        {% if request.user == story.author %}
+        <!-- Header -->
 
-        <form
-            method="POST"
-            action="{% url 'stories:story_delete' story.id %}">
+        <div class="story-header">
 
-            {% csrf_token %}
+            <div class="story-user-info">
 
-            <button
-                class="btn-secondary">
+                {% if story.author.profile.profile_picture %}
 
-                Delete Story
+                    <img
+                        src="{{ story.author.profile.profile_picture.url }}"
+                        class="story-profile-image">
 
-            </button>
+                {% else %}
 
-        </form>
+                    <div class="story-profile-placeholder">
+
+                        👤
+
+                    </div>
+
+                {% endif %}
+
+                <div>
+
+                    <h4>
+
+                        {{ story.author.username }}
+
+                    </h4>
+
+                    <small>
+
+                        {{ story.created_at|timesince }} ago
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <a
+                href="{% url 'posts:home_feed' %}"
+                class="story-close-btn">
+
+                ✕
+
+            </a>
+
+        </div>
+
+        <!-- Story Image -->
+
+        <div class="story-image-container">
+
+            <img
+                src="{{ story.image.url }}"
+                class="story-full-image"
+                alt="Story">
+
+        </div>
+
+        <!-- Caption -->
+
+        {% if story.caption %}
+
+        <div class="story-caption">
+
+            {{ story.caption }}
+
+        </div>
 
         {% endif %}
+
+        <!-- Footer -->
+
+        <div class="story-footer">
+
+            <div>
+
+                👁 {{ story.story_views.count }} Views
+
+            </div>
+
+            {% if request.user == story.author %}
+
+            <form
+                method="POST"
+                action="{% url 'stories:story_delete' story.id %}">
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="delete-story-btn">
+
+                    Delete Story
+
+                </button>
+
+            </form>
+
+            {% endif %}
+
+        </div>
 
     </div>
 
 </div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+
+const NEXT_STORY_URL =
+"{% if next_story %}{% url 'stories:story_detail' next_story.id %}{% endif %}";
+
+</script>
+
+<script src="{% static 'js/story.js' %}"></script>
 
 {% endblock %}
