@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/story.css' %}">
+
+<div class="story-viewer">
+
+    <div class="story-box">
+
+        <img
+            src="{{ story.image.url }}"
+            class="story-image">
+
+        {% if story.caption %}
+
+        <p class="story-caption">
+
+            {{ story.caption }}
+
+        </p>
+
+        {% endif %}
+
+        <div class="story-footer">
+
+            <strong>
+
+                {{ story.author.username }}
+
+            </strong>
+
+            <br>
+
+            {{ story.created_at|timesince }} ago
+
+        </div>
+
+        {% if request.user == story.author %}
+
+        <form
+            method="POST"
+            action="{% url 'stories:story_delete' story.id %}">
+
+            {% csrf_token %}
+
+            <button
+                class="btn-secondary">
+
+                Delete Story
+
+            </button>
+
+        </form>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
