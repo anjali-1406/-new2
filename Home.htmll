@@ -1,18 +1,19 @@
+<!-- ================= STORIES ================= -->
+
 <div class="stories-container">
 
-    <!-- Add Story -->
+    <!-- Create Story -->
 
     <a href="{% url 'stories:story_create' %}"
+       class="story-item create-story">
 
-       class="story-card add-story">
+        <div class="story-circle">
 
-        <div class="story-image-box">
-
-            <span class="plus-icon">+</span>
+            +
 
         </div>
 
-        <span class="story-name">
+        <span>
 
             Create Story
 
@@ -20,33 +21,50 @@
 
     </a>
 
-    <!-- Stories -->
+    <!-- Story List -->
 
     {% for story in stories %}
 
     <a href="{% url 'stories:story_detail' story.id %}"
+       class="story-item">
 
-       class="story-card">
+        <div class="story-circle">
 
-        <div class="story-image-box">
+            {% if story.author.profile.profile_picture %}
 
-            <img
+                <img
+                    src="{{ story.author.profile.profile_picture.url }}"
+                    alt="{{ story.author.username }}">
 
-                src="{{ story.image.url }}"
+            {% else %}
 
-                class="story-image"
+                <img
+                    src="{{ story.image.url }}"
+                    alt="{{ story.author.username }}">
 
-                alt="{{ story.author.username }}">
+            {% endif %}
 
         </div>
 
-        <span class="story-name">
+        <span>
 
-            {{ story.author.username }}
+            {{ story.author.username|truncatechars:10 }}
 
         </span>
 
     </a>
+
+    {% empty %}
+
+    <div class="story-item">
+
+        <span>
+
+            No Stories
+
+        </span>
+
+    </div>
 
     {% endfor %}
 
